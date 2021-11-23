@@ -14,7 +14,6 @@ on:
        - PR_test
 env:
   PR_NUMBER: ${{ github.event.pull_request.number }}
-  check_commit_count: 2
   Label_Name: LargePR
   Set_Comments: This comment will apply when they're more than ten commits
 
@@ -29,6 +28,13 @@ jobs:
       pull-requests: write
 
     steps:
+	     - name: Hello world action step
+           id: commit
+           uses: PunithMohan/custom-workflow-test@v1.1
+           with:
+             commit-count: 'default'
+		- name: get the commit cout from custom workflow
+		  run: echo "${{ steps.commit }}"
         - name: Get the commit count for PR
           run: |
            echo "Commits_count=$(curl \
