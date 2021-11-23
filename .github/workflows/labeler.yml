@@ -28,13 +28,11 @@ jobs:
       pull-requests: write
 
     steps:
-	     - name: Hello world action step
-           id: commit
-           uses: PunithMohan/custom-workflow-test@v1.1
-           with:
-             commit-count: 'default'
-		- name: get the commit cout from custom workflow
-		  run: echo "${{ steps.commit }}"
+        - name: Hello world action step
+          id: commit
+          uses: PunithMohan/custom-workflow-test@v1.1
+          with:
+              commit-count: 'default'
         - name: Get the commit count for PR
           run: |
            echo "Commits_count=$(curl \
@@ -45,7 +43,7 @@ jobs:
         - name: Create and apply label to PR
           run: |
             echo "Commits_count:  ${{ env.Commits_count }}"
-            if [[ "${{ env.Commits_count }}" -ge 2 ]]; then
+            if [[ "${{ env.Commits_count }}" -ge ${{ steps.commit }} ]]; then
             
             echo "Create label"
             curl \
