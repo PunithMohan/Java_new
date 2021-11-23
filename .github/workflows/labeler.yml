@@ -1,0 +1,70 @@
+# This workflow will triage pull requests and apply a label based on the
+# paths that are modified in the pull request.
+#
+# To use this workflow, you will need to set up a .github/labeler.yml
+# file with configuration.  For more information, see:
+# https://github.com/actions/labelers
+
+name: Labeler
+on:
+  pull_request:
+    branches:
+       - Release1.1
+       - main
+       - PR_test
+env:
+  PR_NUMBER: ${{ github.event.pull_request.number }}
+  check_commit_count: 2
+  Label_Name: LargePR
+  Set_Comments: This comment will apply when they're more than ten commits
+
+
+
+jobs:
+  label:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+        - name: Get the commit count for PR
+          run: |
+           echo "Commits_count=$(curl \
+           -X GET \
+           -H "Accept: application/vnd.github.v3+json" \
+           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+           https://api.github.com/repos/${{ github.repository }}/pulls/${{ env.PR_NUMBER }}/commits | grep parents | wc -l)" >> $GITHUB_ENV               
+        - name: Create and apply label to PR
+          run: |
+            echo "Commits_count:  ${{ env.Commits_count }}"
+            if [[ "${{ env.Commits_count }}" -ge 2 ]]; then
+            
+            echo "Create label"
+            curl \
+            -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/labels \
+            -d '{"name":"LargePR","color":"1d76db"}'  
+            
+             echo "Apply label to PR"            
+             curl \
+             -X POST \
+             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+             -H "Accept: application/vnd.github.v3+json" \
+               https://api.github.com/repos/${{ github.repository }}/issues/${{ env.PR_NUMBER }}/labels \
+              -d '{"labels":["LargePR"]}' 
+              
+             echo Applying comments after label            
+             curl \
+             -X POST \
+             -H "Accept: application/vnd.github.v3+json" \
+             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+             https://api.github.com/repos/${{ github.repository }}/issues/${{ env.PR_NUMBER }}/comments \
+             -d '{"body":"This comment will apply when they're more than ten commits"}'
+             
+            fi
+           
+          
