@@ -43,7 +43,7 @@ jobs:
         - name: Create and apply label to PR
           run: |
             echo "Commits_count:  ${{ env.Commits_count }}"
-            echo "commit from custom template : ${{ commit.commit-count }}"
+            echo "commit from custom template : ${{ steps.commit.commit-count }}"
             if [[ "${{ env.Commits_count }}" -ge "${{ steps.commit.commit-count }}" ]]; then
             
             echo "Create label"
