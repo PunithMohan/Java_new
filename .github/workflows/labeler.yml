@@ -31,8 +31,7 @@ jobs:
         - name: Hello world action step
           id: commit
           uses: PunithMohan/custom-workflow-test@v1.13
-          with:
-             commit-count: '5'
+          
         - name: Get the commit count for PR
           run: |
            echo "Commits_count=$(curl \
