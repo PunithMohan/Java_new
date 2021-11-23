@@ -43,7 +43,7 @@ jobs:
         - name: Create and apply label to PR
           run: |
             echo "Commits_count:  ${{ env.Commits_count }}"
-            if [[ "${{ env.Commits_count }}" -ge ${{ steps.commit }} ]]; then
+            if [[ "${{ env.Commits_count }}" -ge "${{ steps.commit }}" ]]; then
             
             echo "Create label"
             curl \
