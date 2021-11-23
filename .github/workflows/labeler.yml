@@ -30,7 +30,7 @@ jobs:
     steps:
         - name: Hello world action step
           id: commit
-          uses: PunithMohan/custom-workflow-test@v1.4
+          uses: PunithMohan/custom-workflow-test@v1.5
           with:
              commit-count: '5'
         - name: Get the commit count for PR
@@ -43,8 +43,8 @@ jobs:
         - name: Create and apply label to PR
           run: |
             echo "Commits_count:  ${{ env.Commits_count }}"
-            echo "commit from custom template : ${{ steps.commit.outputs.time }}"
-            if [[ "${{ env.Commits_count }}" -ge "${{ steps.commit.outputs.time }}" ]]; then
+            echo "commit from custom template : ${{ steps.commit.outputs.Commits-Counts }}"
+            if [[ "${{ env.Commits_count }}" -ge "${{ steps.commit.outputs.Commits-Counts }}" ]]; then
             
             echo "Create label"
             curl \
