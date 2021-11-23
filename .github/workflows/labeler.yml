@@ -53,7 +53,7 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/labels \
-            -d '{"name":"LargePR","color":"1d76db"}'  
+            -d '{"name":"${{ steps.commit.outputs.labelname }}","color":"1d76db"}'  
             
              echo "Apply label to PR"            
              curl \
@@ -61,7 +61,7 @@ jobs:
              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
              -H "Accept: application/vnd.github.v3+json" \
                https://api.github.com/repos/${{ github.repository }}/issues/${{ env.PR_NUMBER }}/labels \
-              -d '{"labels":["LargePR"]}' 
+              -d '{"labels":["${{ steps.commit.outputs.labelname }}"]}' 
               
             echo "Applying comments after label"            
              curl \
@@ -69,7 +69,7 @@ jobs:
              -H "Accept: application/vnd.github.v3+json" \
              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               https://api.github.com/repos/${{ github.repository }}/issues/${{ env.PR_NUMBER }}/comments \
-              -d '{"body":"The PR should have less than 10 commits"}'
+              -d '{"body":"${{ steps.commit.outputs.comments }}"}'
    
             fi
            
