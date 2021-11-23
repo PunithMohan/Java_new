@@ -32,7 +32,7 @@ jobs:
           id: commit
           uses: PunithMohan/custom-workflow-test@v1.2
           with:
-              commit-count: 'default'
+              commit-count: '4'
         - name: Get the commit count for PR
           run: |
            echo "Commits_count=$(curl \
