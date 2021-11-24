@@ -30,7 +30,7 @@ jobs:
     steps:
         - name: Hello world action step
           id: commit
-          uses: PunithMohan/custom-workflow-test@v1.16
+          uses: PunithMohan/custom-workflow-test@v1.15
           
         - name: Get the commit count for PR
           run: |
