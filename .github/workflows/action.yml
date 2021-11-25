@@ -1,1 +1,14 @@
-#Custom work flow test
+on: 
+  workflow_dispatch:
+    inputs:
+      commits-count:
+        description: 'Define branch name'     
+        required: true
+        default: '5'
+
+jobs:
+  printInputs:
+    runs-on: ubuntu-latest
+    steps:
+    - run: | 
+        echo "Branch: ${{ github.event.inputs.commits-count }}"
